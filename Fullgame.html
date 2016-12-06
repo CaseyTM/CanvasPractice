@@ -1,0 +1,76 @@
+<script type="text/javascript">
+	var canvas = document.createElement('canvas');
+	var context = canvas.getContext('2d');
+	document.body.appendChild(canvas)
+	canvas.width =
+	canvas.height =
+	var backgroundImage = new Image();
+	backgroundImage.src = "background.png"
+
+	var hero = new Image();
+	hero.src = "hero.png"
+	var heroLocation ={
+		x:100,
+		y:100,
+	}
+
+	var monster = new Image();
+	monster.src = "monster.png"
+	var monsterLocation = {
+		x: 200,
+		y: 100,
+	}
+
+	var keysDown = []
+	addEventsListener('keydown', function(event){
+		keysDown[event.keyCode] = true
+	});
+
+	function update(){
+				if(39 in keysDown){
+			if(heroLocation.x <=450){
+			heroLocation.x +=10;
+			}
+		}
+		if(37 in keysDown){
+			// arrow moving left 
+			if(heroLocation.x >=10){
+			heroLocation.x -=10;
+			}
+		} 
+		// arrow going up 
+		if(38 in keysDown){
+			if(heroLocation.y >= 0){
+			heroLocation.y -=10;
+			}
+		}
+		// Arrow going down 
+		if(40 in keysDown){
+			if(heroLocation.y <= 420){
+			heroLocation.y +=10;
+			}
+		}
+		if(
+			(heroLocation.x <= monsterLocation.x)
+			&& (heroLocation.y <= monsterLocation.y + 32)
+			&& (monsterLocation.x <= heroLocation.x +32)
+			&& (monsterLocation.y <= heroLocation.y +32))
+			){
+			
+}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
