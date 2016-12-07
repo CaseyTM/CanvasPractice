@@ -5,21 +5,75 @@
 </head>
 <body>
 
-<script type="text/javascript">
-	// Create the canvas tag with JS
+	<!-- CREATES A CANVAS AS AN HTML ELEMENT, EASIER TO MANIPULATE -->
+	<canvas id="game"></canvas>
 
-	var canvas = document.createElement('canvas')
-	// Create a context for JS to play with, methods properties etc
+
+
+	<div id="score">Current Score<span id="score-value">0</span></div>
+
+	<div id="high-score">Highest Score<span id="high-score-value"> </span></div>
+
+	<div id="timer"> 30 seconds</div>
+
+	<!-- BUTTONS CONTAINING FUNCTIONS TO START AND CREATE NEW PLAYER -->
+
+	<button onclick="startGame()">Start Game</button>
+
+	<button onclick="newPlayer()">New Player</button>
+
+	<input id="player-name" type="text" placeholder="Player Name">
+
+<script type="text/javascript">
+
+	// CONSTRUCTOR THAT SORTS THROUGH PLAYER INFORMATION
+
+	function newPlayer(){
+		var playerNameDiv = document.getElementById('player-name');
+		var playerName = playerNameDiv.value;
+		var player1 = new Player(playerName);
+		playerArray.push(new Player(playerName));
+		console.log(playerArray)
+	}
+
+		// THIS FUNCTION ASSIGNS CURRENT PLAYER'S NAME AND ANY HIGH-SCORE THEY ACHIEVE
+
+	function Player(name){
+		this.name = name;
+		this.highscore = 0
+	}
+
+	// GLOBAL VARIABLES
+
+	var monstersCaught = 0
+	var playerArray= []
+	var gameStart = 0
+	var gameEnd = 0
+	var timerInterval;
+	var highScore = 0
+
+
+	// CREATE THE CANVAS WITH JS
+
+	var canvas = document.getElementById('game');
+	// CREATE A CONTEXT FOR THE CANVAS, 2 DIMENSIONS NEED HEIGHT AND WIDTH
 	var context = canvas.getContext('2d')
-	// add the canvas tag to the DOM as s child of body
+	// THIS CREATES THE CANVAS AS A CHILD OF BODY ELEMENT
 	document.body.appendChild(canvas)
 
 	canvas.width = 512;
+
 	canvas.height = 480;
+
 
 	var backgroundImage = new Image();
 	backgroundImage.src ="background.png"
-	// Make a new var for hero, who is an image
+	
+	var speedmodifier = 1;
+	var gameOn = false;
+	
+	// MAKE A NEW VAR FOR THE HERO AND SET HIS IMAGE SOURCE
+
 	var hero = new Image()
 	hero.src = "hero.png"
 	var heroLocation = {
@@ -27,107 +81,128 @@
 		y:100,
 	}
 
+	// MAKE A NEW VAR FOR THE MONSTER AND SET IMAGE SOURCE
+
 	var monster = new Image()
 	monster.src = "monster.png";
 	var monsterLocation = {
 		x:200,
 		y:100,
 	}
-	var monstersCaught = 0
+	// ALL FUNCTIONS HERE  !!!!!!
+	// ALL FUNCTIONS HERE  !!!!!!
 
+function startGame(){
+	gameOn = true
+	// USER STARTED THE GAME, SAVE THE TIME AND THEN SAVE THE TIME + 30SEC / 30000 MS
+	gameStart = Date.now();
+	gameEnd = Date.now()+ 30000;
+	// START THE INTERVAL BASED ON 500 MILLISECONDS
+	timerInterval = setInterval(updateTimer, 500);
+	monstersCaught = 0;
+	document.getElementById('score-value').innerHTML = 0
 
-	// An array to hold all currently pressed keys 
+}
 
-	var keysDown = []
-	addEventListener('keyup', function(event){
-		delete keysDown[event.keyCode];
-	});
+function updateTimer(){
+	var newNow = Date.now();
+	// SUBTRACT THE GAME END TIME FROM THE CURRENT TIME
+	var timeDifference = (gameEnd - newNow) / 1000;
+	if(timeDifference < 0){
+		clearInterval(timerInterval);
+		gameOn = false;
+		timeDifference = 0;
+		document.getElementById('high-score').innerHTML = "The highest score is" + monstersCaught
+		document.getElementById('timer').innerHTML = "Game over!";
+	}else{
+	document.getElementById('timer').innerHTML = timeDifference + "seconds";
+	}
+}
 
+	// THIS IS THE FUNCTION THAT "LISTENS" FOR KEYS PRESSED, WHEN PRESSED IS EXECUTED 
 
-	// we need a way to tell if the user has pushed an arrow key
-	addEventListener('keydown', function(event){
-		// console.log(event.key);
-		// This is where we will update the hero based on whats true in keysDown
-		keysDown[event.keyCode] = true
-	});
-	// var reset = function(){
-	// 	hero.x = 100;
-	// 	hero.y = 100;
-	// 	monster.x = 32 + (Math.random() * (canvas.width - 64));
-	// 	monster.y = 32 + (Math.random() * (canvas.height - 64))
-	// };
-	// Reset the game when the player catches a monster
-	// var reset = function () {
-	// 	hero.x = canvas.width / 2;
-	// 	hero.y = canvas.height / 2;
-
-	// 	// Throw the monster somewhere on the screen randomly
-	// 	monster.x = 32 + (Math.random() * (canvas.width - 64));
-	// 	monster.y = 32 + (Math.random() * (canvas.height - 64));
-	// };
-
-	var randLoc1 =  32 + Math.ceil(Math.random() * (canvas.width -64))
-	var randLoc2 =  32 + Math.ceil(Math.random() * (canvas.height -64))
 	function update(){
 		// arrow moving right
 		if(39 in keysDown){
 			if(heroLocation.x <=450){
-			heroLocation.x +=10;
+			heroLocation.x +=( 10 * speedmodifier);
 			}
 		}
 		if(37 in keysDown){
 			// arrow moving left 
 			if(heroLocation.x >=10){
-			heroLocation.x -=10;
+			heroLocation.x -=( 10 * speedmodifier);
 			}
 		} 
-		// arrow going up 
+			// arrow going up 
 		if(38 in keysDown){
 			if(heroLocation.y >= 0){
-			heroLocation.y -=10;
+			heroLocation.y -=( 10 * speedmodifier);
 			}
 		}
-		// Arrow going down 
+			// Arrow going down 
 		if(40 in keysDown){
 			if(heroLocation.y <= 420){
-			heroLocation.y +=10;
+			heroLocation.y +=( 10 * speedmodifier);
 			}
 		}
 		if(
+			// THIS IS WHERE YOUR HEROS COLLISION IS DETERMINED
 			(heroLocation.x <= monsterLocation.x)
 			&& (heroLocation.y <= monsterLocation.y + 32)
 			&& (monsterLocation.x <= heroLocation.x +32)
 			&& (monsterLocation.y <= heroLocation.y +32)
 			){
-			// console.log("you are within 32");
-				++monstersCaught;
-
-				monsterLocation.x = randLoc1;
-				monsterLocation.y = randLoc2;
-				console.log(monstersCaught)
-				console.log(randLoc1)
-				console.log(randLoc2)
-		}
 			
-		
+				++monstersCaught;
+				document.getElementById('score-value').innerHTML = "Your score is" + monstersCaught;
+				respawn();
+				if(monstersCaught > highScore){
+					highscore = monstersCaught;
+					document.getElementById('high-score-value').innerHTML = highscore
+				}
+				var currentPlayerIndex = playerArray.length-1;
+				console.log(playerArray[currentPlayerIndex]);
+
+
+
+
+				if(monstersCaught > playerArray[currentPlayerIndex].highscore);{
+					playerArray[currentPlayerIndex].highscore = monstersCaught
+				}		
+			}
 	}
+	// THESE DETERMINE A RANDOM LOCATION FOR THE MONSTER TO REAPPEAR
+	
+function respawn(){
+	var randLoc1 =  32 + Math.ceil(Math.random() * (canvas.width -64))
+	var randLoc2 =  32 + Math.ceil(Math.random() * (canvas.height -64))
+	monsterLocation.x = randLoc1;
+	monsterLocation.y = randLoc2;
+}
+
+	// MUST MAKE AN ARRAY TO HOLD CURRENTLY PRESSED KEYS, ALLOWS FOR DIAG MOVEMENT
+
+	var keysDown = []
+
+	addEventListener('keyup', function(event){
+		delete keysDown[event.keyCode];
+	});
 
 
+	// THIS IS THE CODE TO LISTEN FOR "PRESSED KEYS"
 
+	addEventListener('keydown', function(event){
+	// THIS UPDATES THE HERO BASED UPON WHAT'S TRUE IN "keysDown"
+		keysDown[event.keyCode] = true
+	});
 
-// var speed = function(){
-// 	for(var i = 70; i < 100; i +=5){
-
-// 	}
-// };
-// console.log(speed);
-
-
-		// Put image in canvas, starting top left 0-0 X Y axis
-// KEEP THIS AT THE BOTTOM 
+	// THIS IS THE FUNCTION THAT UPDATES EVERYTHING, MUST KEEP AT BOTTOM
 
 	function draw(){
+		if(gameOn){
 		update()
+	}
 		context.drawImage(backgroundImage, 0,0);
 		context.drawImage(hero, heroLocation.x,heroLocation.y)
 		context.drawImage(monster, monsterLocation.x,monsterLocation.y)
