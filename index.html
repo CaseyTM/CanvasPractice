@@ -33,6 +33,9 @@
 		x:200,
 		y:100,
 	}
+	var monstersCaught = 0
+
+
 	// An array to hold all currently pressed keys 
 
 	var keysDown = []
@@ -47,7 +50,24 @@
 		// This is where we will update the hero based on whats true in keysDown
 		keysDown[event.keyCode] = true
 	});
+	// var reset = function(){
+	// 	hero.x = 100;
+	// 	hero.y = 100;
+	// 	monster.x = 32 + (Math.random() * (canvas.width - 64));
+	// 	monster.y = 32 + (Math.random() * (canvas.height - 64))
+	// };
+	// Reset the game when the player catches a monster
+	// var reset = function () {
+	// 	hero.x = canvas.width / 2;
+	// 	hero.y = canvas.height / 2;
 
+	// 	// Throw the monster somewhere on the screen randomly
+	// 	monster.x = 32 + (Math.random() * (canvas.width - 64));
+	// 	monster.y = 32 + (Math.random() * (canvas.height - 64));
+	// };
+
+	var randLoc1 =  32 + Math.ceil(Math.random() * (canvas.width -64))
+	var randLoc2 =  32 + Math.ceil(Math.random() * (canvas.height -64))
 	function update(){
 		// arrow moving right
 		if(39 in keysDown){
@@ -79,12 +99,28 @@
 			&& (monsterLocation.x <= heroLocation.x +32)
 			&& (monsterLocation.y <= heroLocation.y +32)
 			){
-			console.log("Hero is within 32 of the monster");
-		}else{
-			console.log("Not close enough");
+			// console.log("you are within 32");
+				++monstersCaught;
+
+				monsterLocation.x = randLoc1;
+				monsterLocation.y = randLoc2;
+				console.log(monstersCaught)
+				console.log(randLoc1)
+				console.log(randLoc2)
 		}
+			
+		
 	}
 
+
+
+
+// var speed = function(){
+// 	for(var i = 70; i < 100; i +=5){
+
+// 	}
+// };
+// console.log(speed);
 
 
 		// Put image in canvas, starting top left 0-0 X Y axis
