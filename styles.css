@@ -1,0 +1,83 @@
+body{
+	background-color: #575757;
+
+}
+button{
+	width: 100%;
+	height: 50px;
+	margin-bottom: 25px;
+	font-size: 20px;
+}
+
+
+
+
+
+.player-info{
+	max-width: 100%;
+	height: 50px;
+	width: 100%;
+	border: 2px solid black;
+	float: left;
+	margin: 15px;
+	
+}
+
+.player-input{
+	max-width: 33%;
+	height: 50px;
+	width: 100%;
+	float: left;
+	margin: 15px;
+}
+
+
+
+#score{
+	float: left;
+	margin-left: 20px;
+	margin-right: 20px;
+	width: 30%;
+	text-align: center;
+}
+
+#high-score{
+	float: left;
+	margin-left: 20px;
+	margin-right: 20px;	
+	width: 30%;
+	text-align: center;
+	font-size: 40px;
+}
+
+#timer{
+	font-size: 40px;
+	text-align: center;
+	float: left;
+	margin-left: 20px;
+	margin-right: 20px;
+	width: 30%;
+}
+#game{
+	border: 10px solid black;
+	max-width: 100%;
+	margin: auto;
+}
+
+#player-name{
+	width: 100%;
+	height: 30px;
+	font-size: 26px;
+	text-align: center;
+
+}
+#score-value{
+	padding-left: 30px;
+	font-size: 40px;
+	text-align: center;
+
+}
+#high-score-value{
+	padding-left: 60px;
+
+}

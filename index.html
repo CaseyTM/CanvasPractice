@@ -1,28 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<link rel = "stylesheet" type = "text/css" href = "styles.css">
 	<title>Canvas Game!</title>
 </head>
 <body>
 
+
 	<!-- CREATES A CANVAS AS AN HTML ELEMENT, EASIER TO MANIPULATE -->
-	<canvas id="game"></canvas>
+	<div id="gamebox"><canvas id="game"></canvas></div>
 
+	<div class="player-info">
 
+		<div id="score"><span id="score-value">You must begin!</span></div>
 
-	<div id="score">Current Score<span id="score-value">0</span></div>
+		<div id="high-score">Highest Score<span id="high-score-value"> </span></div>
 
-	<div id="high-score">Highest Score<span id="high-score-value"> </span></div>
+		<div id="timer"> 30 seconds</div>
 
-	<div id="timer"> 30 seconds</div>
+	</div>
 
 	<!-- BUTTONS CONTAINING FUNCTIONS TO START AND CREATE NEW PLAYER -->
+
+<div class="player-input">
 
 	<button onclick="startGame()">Start Game</button>
 
 	<button onclick="newPlayer()">New Player</button>
 
 	<input id="player-name" type="text" placeholder="Player Name">
+
+</div>
 
 <script type="text/javascript">
 
@@ -69,6 +78,7 @@
 	var backgroundImage = new Image();
 	backgroundImage.src ="background.png"
 	
+	var monsterSpeedModifier = 1
 	var speedmodifier = 1;
 	var gameOn = false;
 	
@@ -107,7 +117,7 @@ function startGame(){
 function updateTimer(){
 	var newNow = Date.now();
 	// SUBTRACT THE GAME END TIME FROM THE CURRENT TIME
-	var timeDifference = (gameEnd - newNow) / 1000;
+	var timeDifference = Math.floor((gameEnd - newNow) / 1000);
 	if(timeDifference < 0){
 		clearInterval(timerInterval);
 		gameOn = false;
@@ -153,7 +163,7 @@ function updateTimer(){
 			&& (monsterLocation.x <= heroLocation.x +32)
 			&& (monsterLocation.y <= heroLocation.y +32)
 			){
-			
+		// THIS CODE ITERATES EACH TIME THE OBJECTS COLLIDE
 				++monstersCaught;
 				document.getElementById('score-value').innerHTML = "Your score is" + monstersCaught;
 				respawn();
@@ -180,6 +190,33 @@ function respawn(){
 	monsterLocation.x = randLoc1;
 	monsterLocation.y = randLoc2;
 }
+	// BASIC AI FOR MONSTER MOVEMENT
+		function monsterUpdate(){
+            if(
+                (monsterLocation.newX <= monsterLocation.x + 31)
+                && (monsterLocation.newY <= monsterLocation.y + 31)
+                && (monsterLocation.x <= monsterLocation.newX + 31)
+                && (monsterLocation.y <= monsterLocation.newY + 31)
+            ){
+                monsterLocation.newX = Math.ceil(Math.random() * 450);
+                monsterLocation.newY = Math.ceil(Math.random() * 400);
+             
+            }
+
+            if(monsterLocation.x > monsterLocation.newX){
+                monsterLocation.x -= 1 * monsterSpeedModifier;     
+            }
+            if(monsterLocation.x < monsterLocation.newX){
+                monsterLocation.x += 1 * monsterSpeedModifier;
+            }
+            if(monsterLocation.y > monsterLocation.newY){
+                monsterLocation.y -= 1 * monsterSpeedModifier;
+            }
+            if(monsterLocation.y < monsterLocation.newY){
+                monsterLocation.y += 1 * monsterSpeedModifier;
+            }
+
+        }
 
 	// MUST MAKE AN ARRAY TO HOLD CURRENTLY PRESSED KEYS, ALLOWS FOR DIAG MOVEMENT
 
@@ -201,12 +238,13 @@ function respawn(){
 
 	function draw(){
 		if(gameOn){
-		update()
+		update();
+		monsterUpdate();
 	}
 		context.drawImage(backgroundImage, 0,0);
 		context.drawImage(hero, heroLocation.x,heroLocation.y)
 		context.drawImage(monster, monsterLocation.x,monsterLocation.y)
-		requestAnimationFrame(draw)
+				requestAnimationFrame(draw)
 	}
 
 	draw();
