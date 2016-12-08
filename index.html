@@ -165,7 +165,7 @@ function updateTimer(){
 			){
 		// THIS CODE ITERATES EACH TIME THE OBJECTS COLLIDE
 				++monstersCaught;
-				document.getElementById('score-value').innerHTML = "Your score is" + monstersCaught;
+				document.getElementById('score-value').innerHTML = "Your score is" + " " + monstersCaught;
 				respawn();
 				if(monstersCaught > highScore){
 					highscore = monstersCaught;
