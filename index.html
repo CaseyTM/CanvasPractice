@@ -17,7 +17,7 @@
 
 		<div id="high-score">Highest Score<span id="high-score-value"> </span></div>
 
-		<div id="timer"> 30 seconds</div>
+		<div id="timer"> 15 seconds</div>
 
 	</div>
 
@@ -78,8 +78,8 @@
 	var backgroundImage = new Image();
 	backgroundImage.src ="background.png"
 	
-	var monsterSpeedModifier = 1
-	var speedmodifier = 1;
+	var monsterSpeedModifier =1
+	var speedModifier = 1;
 	var gameOn = false;
 	
 	// MAKE A NEW VAR FOR THE HERO AND SET HIS IMAGE SOURCE
@@ -98,6 +98,17 @@
 	var monsterLocation = {
 		x:200,
 		y:100,
+		newX: 200,
+		newY: 100,
+	}
+
+	var monster2 = new Image();
+	monster2.src = "monster.png"
+	var monster2Location ={
+		x:100,
+		y:200,
+		newX2: 100,
+		newY2: 200,
 	}
 	// ALL FUNCTIONS HERE  !!!!!!
 	// ALL FUNCTIONS HERE  !!!!!!
@@ -106,9 +117,9 @@ function startGame(){
 	gameOn = true
 	// USER STARTED THE GAME, SAVE THE TIME AND THEN SAVE THE TIME + 30SEC / 30000 MS
 	gameStart = Date.now();
-	gameEnd = Date.now()+ 30000;
+	gameEnd = Date.now()+ 15000;
 	// START THE INTERVAL BASED ON 500 MILLISECONDS
-	timerInterval = setInterval(updateTimer, 500);
+	timerInterval = setInterval(updateTimer, 1000);
 	monstersCaught = 0;
 	document.getElementById('score-value').innerHTML = 0
 
@@ -135,25 +146,25 @@ function updateTimer(){
 		// arrow moving right
 		if(39 in keysDown){
 			if(heroLocation.x <=450){
-			heroLocation.x +=( 10 * speedmodifier);
+			heroLocation.x +=( 10 * speedModifier);
 			}
 		}
 		if(37 in keysDown){
 			// arrow moving left 
 			if(heroLocation.x >=10){
-			heroLocation.x -=( 10 * speedmodifier);
+			heroLocation.x -=( 10 * speedModifier);
 			}
 		} 
 			// arrow going up 
 		if(38 in keysDown){
 			if(heroLocation.y >= 0){
-			heroLocation.y -=( 10 * speedmodifier);
+			heroLocation.y -=( 10 * speedModifier);
 			}
 		}
 			// Arrow going down 
 		if(40 in keysDown){
 			if(heroLocation.y <= 420){
-			heroLocation.y +=( 10 * speedmodifier);
+			heroLocation.y +=( 10 * speedModifier);
 			}
 		}
 		if(
@@ -165,6 +176,7 @@ function updateTimer(){
 			){
 		// THIS CODE ITERATES EACH TIME THE OBJECTS COLLIDE
 				++monstersCaught;
+				monsterSpeedModifier++;
 				document.getElementById('score-value').innerHTML = "Your score is" + " " + monstersCaught;
 				respawn();
 				if(monstersCaught > highScore){
@@ -204,16 +216,16 @@ function respawn(){
             }
 
             if(monsterLocation.x > monsterLocation.newX){
-                monsterLocation.x -= 1 * monsterSpeedModifier;     
+                monsterLocation.x -= (.2 * monsterSpeedModifier);     
             }
             if(monsterLocation.x < monsterLocation.newX){
-                monsterLocation.x += 1 * monsterSpeedModifier;
+                monsterLocation.x += (.2 * monsterSpeedModifier);
             }
             if(monsterLocation.y > monsterLocation.newY){
-                monsterLocation.y -= 1 * monsterSpeedModifier;
+                monsterLocation.y -= (.2 * monsterSpeedModifier);
             }
             if(monsterLocation.y < monsterLocation.newY){
-                monsterLocation.y += 1 * monsterSpeedModifier;
+                monsterLocation.y += (.2 * monsterSpeedModifier);
             }
 
         }
