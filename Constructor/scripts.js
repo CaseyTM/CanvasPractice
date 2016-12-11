@@ -27,7 +27,7 @@ function Hero(x,y,heroImage){
 // HERO METHODS
 Hero.prototype.move = function(keysDown, speedModifier = 10){
 	if(39 in keysDown){
-		if(this.x <= 400){
+		if(this.x <= 460){
 			this.x += speedModifier;
 		}
 	}
@@ -42,7 +42,7 @@ Hero.prototype.move = function(keysDown, speedModifier = 10){
 		}
 	}
 	if(40 in keysDown){
-		if(this.y <= 400){
+		if(this.y <= 415){
 			this.y += speedModifier;
 		}
 	}
@@ -56,8 +56,8 @@ function Monster(x, y, monsterImage){
 	this.icon.src = monsterImage;
 }
 Monster.prototype.resetLocation = function(){
-	var random = Math.random() * 200;
-	var random2 = Math.random() * 200;
+	var random = Math.random() * 400;
+	var random2 = Math.random() * 400;
 	this.x = random;
 	this.y = random2;
 }
@@ -191,10 +191,17 @@ canvas.height = 480;
 var context = canvas.getContext('2d')
 
 var backgroundImage = new Image();
-backgroundImage.src = "supernova.png";
+backgroundImage.src = "cloud.png";
 
-var hero = new Hero(100,100,"Bigayal.png");
-monsters.push(new Monster(200,100,"monster.png"));
+var hero = new Hero(100,100,"water.png");
+monsters.push(new Monster(200,100,"flame.png"));
+monsters.push(new Monster(300,300,"flame.png"));
+monsters.push(new Monster(100,200,"flame.png"));
+monsters.push(new Monster(100,300,"flame.png"));
+monsters.push(new Monster(300,100,"flame.png"));
+monsters.push(new Monster(200,300,"flame.png"));
+monsters.push(new Monster(300,200,"flame.png"));
+monsters.push(new Monster(200,200,"flame.png"));
 
 // ------------------------
 // ----- LISTENERS -----
