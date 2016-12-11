@@ -63,7 +63,27 @@ Monster.prototype.resetLocation = function(){
 }
 Monster.prototype.move = function(){
 	// YOUR CODE HERE :)
-}
+	if((this.newX <= this.x +31)
+		&& (this.newY <= this.y +31)
+		&& (this.x <= this.newX +31)
+		&& (this.y <= this.newY +31)
+	){
+		this.newX = Math.ceil(Math.random() * 450);
+		this.newY = Math.ceil(Math.random() * 450);
+	}
+	if(this.x > this.newX){
+		this.x -= (.2 * monsterSpeedModifier);
+	}
+	if(this.x < this.newX){
+		this.x += (.2 * monsterSpeedModifier);
+	}
+	if(this.y > this.newY){
+		this.y -= (.2 * monsterSpeedModifier);
+	}
+	if(this.y < this.newY){
+		this.y += (.2 * monsterSpeedModifier);
+	}
+}	
 
 // -------------------------
 // --- GENERAL FUNCTIONS ---
@@ -81,7 +101,7 @@ function makeNewPlayer(){
 function startGame(){
 	gameOn = true;
 	gameStart = Date.now();
-	gameEnd = Date.now() + 3000;
+	gameEnd = Date.now() + 30000;
 	timerInterval = setInterval(updateTimer, 500);
 	currentPlayersScore = 0;
 	document.getElementById('score-value').innerHTML = 0;
@@ -160,6 +180,7 @@ var speedModifier = 1;
 var gameOn = false;
 var keysDown = [];
 var monsters = [];
+var monsterSpeedModifier = 1
 
 // ------------------------
 // ---- CREATE OBJECTS ----
@@ -172,7 +193,7 @@ var context = canvas.getContext('2d')
 var backgroundImage = new Image();
 backgroundImage.src = "supernova.png";
 
-var hero = new Hero(100,100,"link1.png");
+var hero = new Hero(100,100,"Bigayal.png");
 monsters.push(new Monster(200,100,"monster.png"));
 
 // ------------------------

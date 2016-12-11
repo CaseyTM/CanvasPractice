@@ -1,0 +1,36 @@
+
+#timer, button, input{
+	width:  24%;
+	display:  block;
+	text-align: center;
+	margin: auto;
+	float: left;
+}
+#timer-bar{
+	width: 100%;
+}
+#game{
+	width: 100%;
+
+}
+#scores-wrapper{
+	display: block;
+	margin: auto;
+	width: 50%;
+	display: inline-block;
+	vertical-align: top;
+	position: relative;
+
+}
+#hi-score, #score, #player-score-list{
+	width: 100%;
+	text-align: center;
+	display: inline-block;
+}
+#game-wrapper{
+	display: block;
+	margin: auto;
+	width: 45%;
+	display: inline-block;
+	vertical-align: top;
+}

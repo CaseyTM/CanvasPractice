@@ -2,40 +2,23 @@
 <html>
 <head>
 	<title>Canvas Game!</title>
-	<style type="text/css" media="screen">
-		#timer, button, input{
-			width:  20%;
-			display:  block;
-			text-align: center;
-			margin: auto;
-		}
-		#game{
-			width: 100%;
-		}
-		#game-wrapper, #scores-wrapper{
-			display: block;
-			margin: auto;
-			width: 45%;
-			display: inline-block;
-			vertical-align: top;
-		}
-		#hi-score, #score, #player-score-list{
-			width: 100%;
-			text-align: center;
-			display: inline-block;
-		}
+	<link rel="stylesheet" type="text/css" href="styles.css">
 	</style>
 </head>
 <body>
-
-<div id="timer">30 seconds</div>
-<button onclick="startGame();">Start Game</button>
-<button onclick="makeNewPlayer()">New Player</button>
-<input id="player-name" type="text" placeholder="Player Name">
+<div id="timer-bar">
+	<div id="timer">30 seconds</div>
+	<button onclick="startGame();">Start Game</button>
+	<button onclick="makeNewPlayer()">New Player</button>
+	<input id="player-name" type="text" placeholder="Player Name">
+</div>
 <div id="game-wrapper">
 	<canvas id="game"></canvas>
 </div>
 <div id="scores-wrapper">
+	<div id="peep">
+		<img src="bigayal.png">
+	</div>
 	<div id="score">Score: <span id="score-value">0</span></div>
 	<div id="hi-score">High Score: <span id="hi-score-value">0</span></div>	
 	<div id="player-score-list"></div>
